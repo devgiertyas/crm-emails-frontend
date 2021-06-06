@@ -119,7 +119,7 @@ export default function Users() {
                             <TableCell align="center">{new Date(row.createdAt).toLocaleString('pt-br')}</TableCell>
                             <TableCell align="right">
                             <ButtonGroup aria-label="outlined primary button group">
-                              <Button variant="contained" color="primary" href={'/admin/users/edit/'+row._id}><AutorenewIcon /> Atualizar</Button>
+                              <Button variant="contained" color="primary" href={'/admin/users/edit/'+row._id}><AutorenewIcon /> Editar</Button>
                               <Button variant="contained" color="secondary" onClick={() => handleDelete(row._id)}><ClearIcon /></Button>
                             </ButtonGroup>
                             </TableCell>
