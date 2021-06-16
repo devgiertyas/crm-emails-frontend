@@ -1,30 +1,19 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
+import { DataGrid } from '@material-ui/data-grid'
 import MenuAdmin from '../../../components/admin-home';
 import Footer from '../../../components/footer-admin';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import api from '../../../services/api';
 
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Chip from '@material-ui/core/Chip';
-import {getNomeTipo,getNomeTipoLabel} from '../../../functions/static_data'
 import AddIcon from '@material-ui/icons/Add';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
 import ClearIcon from '@material-ui/icons/Clear';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,92 +38,96 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
- 
+
 }));
 
 export default function Contacts() {
   const classes = useStyles();
   const [contatos, setContatos] = useState([]);
-  const [ loading, setLoading ] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const columns = [
+    { field: 'id', headerName: 'ID', hide: true },
+    { field: 'nome_contato', headerName: 'Nome', width: 300 },
+    { field: 'telefone_contato', headerName: 'Telefone', width: 150 },
+    { field: 'email_contato', headerName: 'E-mail', width: 150 },
+    { field: 'grupo_id', headerName: 'Grupo', width: 150 },
+    {
+      field: "actions",
+      headerName: "Ações",
+      sortable: false,
+      width: 200,
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+          return (
+            <div>
+            <Button variant="contained" color="primary" href={'/admin/users/edit/'+params.row.id}><AutorenewIcon /> Editar</Button>
+            <Button variant="contained" color="secondary" onClick={() => handleDelete(params.row.id)}><ClearIcon /></Button>
+            </div>
+          );
+       }
+    }
+  ]
 
-  const [checked, setChecked] = React.useState(true);
+  const [selectionModel, setSelectionModel] = React.useState([]);
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
-  useEffect(() =>{
-    async function loadContacts(){
+  useEffect(() => {
+    async function loadContacts() {
       const response = await api.get("/api/contacts");
       setContatos(response.data)
       setLoading(false);
     }
     loadContacts();
-  },[]);
+  }, []);
 
-  async function handleDelete(id){
-    if(window.confirm("Deseja realmente excluir este contato?")){
-      var result = await api.delete('/api/contacts/'+id);
-      if(result.status ===200){
+  async function handleDelete(id) {
+    if (window.confirm("Deseja realmente excluir este contato?")) {
+      var result = await api.delete('/api/contacts/' + id);
+      if (result.status === 200) {
         window.location.href = '/admin/contacts';
-      }else{
+      } else {
         alert('Ocorreu um erro. Por favor, tente novamente!');
       }
     }
   }
-  
+
+  function GetIdSelect()
+  {
+    console.log(selectionModel);
+  }
+
   return (
     <div className={classes.root}>
-      
-      <MenuAdmin title={'CONTATOS'}/>
+      <MenuAdmin title={'CONTATOS'} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item sm={12}>
-            <Button style={{marginBottom:10}} variant="contained" color="primary" href={'/admin/contacts/create'}>
-              <AddIcon />
+              <Button style={{ marginBottom: 10 }} variant="contained" color="primary" href={'/admin/contacts/create'}>
+                <AddIcon />
               Cadastrar
             </Button>
-            <Paper className={classes.paper}>
+            <Button style={{ marginBottom: 10 }} variant="contained" color="primary" href={'/admin/email/sender'} onClick={GetIdSelect}>
+                <AddIcon />
+              Enviar E-mail
+            </Button>
+              <Paper className={classes.paper}>
                 <h2>Listagem de Contatos</h2>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={12}>
-                  <TableContainer component={Paper}>
-                    {loading?(<LinearProgress style={{width:'50%', margin:'20px auto'}}  />):(
-                    <Table className={classes.table} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                        <TableCell>Selc <Checkbox  checked={checked} onChange={handleChange} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} /></TableCell>
-                          <TableCell>Nome</TableCell>
-                          <TableCell align="center">Email</TableCell>
-                          <TableCell align="center">Telefone</TableCell>
-                          <TableCell align="center">Data de Cadastro</TableCell>
-                          <TableCell align="right">Opções</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {contatos.map((row) => (
-                          <TableRow key={row._id}>
-                              <TableCell><Checkbox checked={checked} color="primary" inputProps={{ 'aria-label': 'secondary checkbox' }} />
-                              </TableCell>                  
-                            <TableCell component="th" scope="row">
-                              {row.nome_contato}
-                            </TableCell>
-                            <TableCell align="center">{row.email_contato}</TableCell>
-                            <TableCell align="center">{row.telefone_contato}</TableCell>
-                            <TableCell align="center">{new Date(row.createdAt).toLocaleString('pt-br')}</TableCell>
-                            <TableCell align="right">
-                            <ButtonGroup aria-label="outlined primary button group">
-                              <Button variant="contained" color="primary" href={'/admin/contacts/edit/'+row._id}><AutorenewIcon /> Editar</Button>
-                              <Button variant="contained" color="secondary" onClick={() => handleDelete(row._id)}><ClearIcon /></Button>
-                            </ButtonGroup>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>)}
-                  </TableContainer>
+                    <div style={{ height: 400, width: '100%' }}>
+                      <DataGrid
+                        rows={contatos}
+                        columns={columns}
+                        pageSize={12}
+                        checkboxSelection
+                        hideFooterPagination
+                        onSelectionModelChange={(newSelection) => {
+                          setSelectionModel(newSelection.selectionModel);
+                      }}
+                      selectionModel={selectionModel}
+                      />
+                    </div>
                   </Grid>
                 </Grid>
               </Paper>

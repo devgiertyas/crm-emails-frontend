@@ -23,7 +23,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import api from '../../../services/api';
 
-import {setNomeUsuario, login, setIdUsuario, setTipoUsuario } from '../../../services/auth';
+import {setNomeUsuario, login, setIdUsuario, setTipoUsuario, getIdUsuario} from '../../../services/auth';
 
 function Copyright() {
   return (
@@ -64,7 +64,11 @@ export default function SignIn() {
     const [ senha, setSenha ] = useState('');
     const [ showPassword, setShowPassword ] = useState(false);
     const [ loading, setLoading ] = useState(false);
-
+    const [checked, setChecked] = React.useState(true);
+    
+    const handleChange = (event) => {
+      setChecked(event.target.checked);
+    };
     async function handleSubmit(){   
         await api.post('/api/usuarios/login',{email,senha})
         .then(res => {
@@ -74,7 +78,6 @@ export default function SignIn() {
                     setIdUsuario(res.data.id_client);
                     setNomeUsuario(res.data.user_name);
                     setTipoUsuario(res.data.user_type);
-
                     window.location.href= '/admin'
                 }else if(res.data.status===2){
                     alert('Atenção: '+res.data.error);
@@ -117,20 +120,6 @@ export default function SignIn() {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Digite sua senha"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={senha}
-            onChange={e => setSenha(e.target.value)}
-          /> */}
-
           <FormControl variant="outlined" style={{width:'100%',marginTop:10}}>
             <InputLabel htmlFor="campoSenha">Digite sua senha</InputLabel>
             <OutlinedInput
@@ -152,7 +141,6 @@ export default function SignIn() {
               labelWidth={120}
             />
           </FormControl>
-
           <Button
             fullWidth
             variant="contained"

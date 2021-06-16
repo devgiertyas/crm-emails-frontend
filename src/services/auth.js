@@ -3,6 +3,7 @@ export const ID_USUARIO = '&id-usuario';
 export const NOME_USUARIO = '&nome-usuario';
 export const USER_TYPE = '&user-type';
 
+
 export const login = token => { localStorage.setItem(TOKEN_KEY,token); }
 export const logout = () => { localStorage.clear() };
 

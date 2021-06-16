@@ -9,10 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import MenuAdmin from '../../../components/admin-home';
 import Footer from '../../../components/footer-admin';
 
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SaveIcon from '@material-ui/icons/Save';
