@@ -60,7 +60,7 @@ export default function Contacts() {
       renderCell: (params) => {
           return (
             <div>
-            <Button variant="contained" color="primary" href={'/admin/users/edit/'+params.row.id}><AutorenewIcon /> Editar</Button>
+            <Button variant="contained" color="primary" href={'/admin/contacts/edit/'+params.row.id}><AutorenewIcon /> Editar</Button>
             <Button variant="contained" color="secondary" onClick={() => handleDelete(params.row.id)}><ClearIcon /></Button>
             </div>
           );
