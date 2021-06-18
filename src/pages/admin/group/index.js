@@ -58,7 +58,7 @@ export default function Groups() {
       renderCell: (params) => {
           return (
             <div>
-            <Button variant="contained" color="primary" href={'/admin/contacts/edit/'+params.row.id}><AutorenewIcon /> Editar</Button>
+            <Button variant="contained" color="primary" href={'/admin/group/edit/'+params.row.id}><AutorenewIcon /> Editar</Button>
             <Button variant="contained" color="secondary" onClick={() => handleDelete(params.row.id)}><ClearIcon /></Button>
             </div>
           );

@@ -9,15 +9,13 @@ import TextField from '@material-ui/core/TextField';
 import MenuAdmin from '../../../components/admin-home';
 import Footer from '../../../components/footer-admin';
 
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SaveIcon from '@material-ui/icons/Save';
+import ClearIcon from '@material-ui/icons/Clear';
 import api from '../../../services/api'
 import { DataGrid } from '@material-ui/data-grid'
+
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {display: 'flex',},
@@ -30,43 +28,78 @@ const useStyles = makeStyles((theme) => ({
   btnSuccess:{ backgroundColor:"green",color:"#fff","&:hover":{backgroundColor:"#12b912"}}
 }));
 
-export default function GroupCreate() {
+export default function GroupEdit() {
   const classes = useStyles();
-
   const [nome , setNome] = useState('');
-
+  const [idProject , setId] = useState('');
+  const [contatos, setContatos] = useState([]);
   const columns = [
     { field: 'id', headerName: 'ID', hide: true },
     { field: 'nome_contato', headerName: 'Nome', width: 300 },
     { field: 'telefone_contato', headerName: 'Telefone', width: 150 },
-    { field: 'email_contato', headerName: 'E-mail', width: 150 }
+    { field: 'email_contato', headerName: 'E-mail', width: 150 },
+    {
+        field: "actions",
+        headerName: "Ações",
+        sortable: false,
+        width: 200,
+        disableClickEventBubbling: true,
+        renderCell: (params) => {
+            return (
+              <div>
+              <Button variant="contained" color="secondary" onClick={() => handleDelete(params.row.id)}><ClearIcon /></Button>
+              </div>
+            );
+         }
+        }   
   ]
-  const [contatos, setContatos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
+
+  const { idGroup } = useParams();
+
   useEffect(() => {
-    async function loadContacts() {
-      const response = await api.get("/api/contacts");
-      setContatos(response.data)
-      setLoading(false);
+    async function getGroup() {
+      var response  = await api.get('/api/grupos.details/'+idGroup);
+      
+      setNome(response.data.nome_grupo);
+
+     setContatos(response.data.contacts);
+    setId(response.data._id);
     }
-    loadContacts();
+    getGroup();
   }, []);
+
+  async function handleDelete(id) {
+    if (window.confirm("Deseja realmente excluir este contato?")) {
+
+        const data = {contatos:[]}
+        
+      for (let index = 0; index < contatos.length; index++) {
+         
+        if(id != contatos[index].id)
+        data.contatos.push(contatos[index].id)
+
+      
+      }  
+      console.log(contatos)
+       console.log(data)
+
+      var result = await api.put('/api/grupos/removercontato/' + idProject, data);
+
+      if (result.status === 200) {
+        window.location.href = '/admin/group/edit/' + idProject;
+      
+      } else {
+        alert('Ocorreu um erro. Por favor, tente novamente!');
+      }
+      
+      console.log(idProject);
+      console.log(id);
+
+    }
+  }
 
   const [selectionModel, setSelectionModel] = React.useState([]);
 
-  async function handleSubmit(){
-
-    const data = {
-      nome_grupo:nome,
-      contatos: selectionModel}
-
-    if(nome!==''&&selectionModel!==''){
-        const response = await api.post('/api/grupos',data);
-    }
- 
-  }
-  
   return (
     <div className={classes.root}>
       
@@ -76,9 +109,9 @@ export default function GroupCreate() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item sm={12}>
-              <Button style={{marginBottom:10}} variant="contained" href={'/admin/users'}><ArrowBackIcon />  Voltar</Button>
+              <Button style={{marginBottom:10}} variant="contained" href={'/admin/group'}><ArrowBackIcon />  Voltar</Button>
               <Paper className={classes.paper}>
-                <h2>Cadastro de Grupos</h2>
+                <h2>Edição de Grupo</h2>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={12}>
                     <TextField
@@ -93,8 +126,8 @@ export default function GroupCreate() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
-                  <h3>Selecionar Contatos do Grupo</h3>
-                    <div style={{ height: 400, width: '100%' }}>
+                  <h3>Contatos do Grupo</h3>
+                  <div style={{ height: 400, width: '100%' }}>
                       <DataGrid
                         rows={contatos}
                         columns={columns}
@@ -109,14 +142,10 @@ export default function GroupCreate() {
                     </div>
                   </Grid>
                   <Grid item xs={12} sm={12}>
-                  <Button variant="contained" onClick={handleSubmit} className={classes.btnSuccess}>
-                  <SaveIcon /> Salvar
-                  </Button>
                   </Grid>
                 </Grid>
               </Paper>
-            </Grid>
-            
+            </Grid>      
           </Grid>
           <Box pt={4}>
             <Footer />

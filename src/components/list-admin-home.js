@@ -26,6 +26,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Contatos" />
     </ListItem>
+    <ListItem button component="a" href="/admin/group" >
+      <ListItemIcon>
+        <GroupIcon />
+      </ListItemIcon>
+      <ListItemText primary="Grupos" />
+    </ListItem>
     <ListItem button component="a" href="/admin/contacts" >
       <ListItemIcon>
         <EmailIcon />
