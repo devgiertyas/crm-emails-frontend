@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Dashboard from './pages/admin/dashboard';
 import EmailSend from './pages/admin/emails/email.send';
+import EmailSendContact from './pages/admin/emails/email.send.contacts'
 import GroupCreate from './pages/admin/group/group.create';
 import Group from './pages/admin/group';
 import GroupEdit from './pages/admin/group/group.edit'
@@ -30,6 +31,7 @@ export default function Routes() {
                 <PrivateRoute  path="/admin" exact component={Dashboard} />
 
                 <PrivateRoute  path="/admin/email/sender" exact component={EmailSend} />
+                <PrivateRoute  path="/admin/email/sendercontact" exact component={EmailSendContact} />
 
                 <Route  path="/admin/group/edit/:idGroup" exact component={GroupEdit} />
                 <PrivateRoute  path="/admin/group/create" exact component={GroupCreate} />

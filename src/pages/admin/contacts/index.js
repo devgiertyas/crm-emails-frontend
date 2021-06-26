@@ -107,7 +107,7 @@ export default function Contacts() {
                 <AddIcon />
               Cadastrar
             </Button>
-            <Button style={{ marginBottom: 10 }} variant="contained" color="primary" href={'/admin/email/sender'} onClick={GetIdSelect}>
+            <Button style={{ marginBottom: 10 }} variant="contained" color="primary" href={'/admin/email/sendercontact'} onClick={GetIdSelect}>
                 <AddIcon />
               Enviar E-mail
             </Button>

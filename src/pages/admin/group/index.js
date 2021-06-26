@@ -48,7 +48,12 @@ export default function Groups() {
   const columns = [
     { field: 'id', headerName: 'ID', hide: true },
     { field: 'nome_grupo', headerName: 'Nome', width: 300 },
-    { field: 'contacts', headerName: 'Participantes', width: 300 },
+    { field: 'createdAt', headerName: 'Data de Cadastro', width: 300,
+      renderCell : (params) => {
+        return (
+        new Date(params.row.createdAt).toLocaleString('pt-br')
+        )
+      } },
     {
       field: "actions",
       headerName: "Ações",

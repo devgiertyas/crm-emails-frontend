@@ -63,8 +63,16 @@ export default function GroupCreate() {
 
     if(nome!==''&&selectionModel!==''){
         const response = await api.post('/api/grupos',data);
-    }
- 
+
+        if(response.status===200){
+          window.location.href='/admin/group'
+          alert('Grupo Cadastrado com Sucesso!');
+        }else{
+          alert('Erro ao cadastrar o Grupo!');
+        }
+      }else{
+        alert('Por favor, preencha todos os dados!');
+      }
   }
   
   return (
@@ -94,7 +102,7 @@ export default function GroupCreate() {
                   </Grid>
                   <Grid item xs={12} sm={12}>
                   <h3>Selecionar Contatos do Grupo</h3>
-                    <div style={{ height: 400, width: '100%' }}>
+                    <div style={{ height: 350, width: '100%' }}>
                       <DataGrid
                         rows={contatos}
                         columns={columns}
