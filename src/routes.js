@@ -31,7 +31,7 @@ export default function Routes() {
                 <PrivateRoute  path="/admin" exact component={Dashboard} />
 
                 <PrivateRoute  path="/admin/email/sender" exact component={EmailSend} />
-                <PrivateRoute  path="/admin/email/sendercontact" exact component={EmailSendContact} />
+                <PrivateRoute  path="/admin/email/sendercontact/:idContact" exact component={EmailSendContact} />
 
                 <Route  path="/admin/group/edit/:idGroup" exact component={GroupEdit} />
                 <PrivateRoute  path="/admin/group/create" exact component={GroupCreate} />

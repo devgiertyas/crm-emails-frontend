@@ -92,7 +92,10 @@ export default function Contacts() {
 
   function GetIdSelect()
   {
-    console.log(selectionModel);
+    if(selectionModel.length > 0 )
+    window.location.href = '/admin/email/sendercontact/' + selectionModel;
+    else 
+    window.alert("Selecione um contao para enviar o e-mail")
   }
 
   return (
@@ -107,7 +110,7 @@ export default function Contacts() {
                 <AddIcon />
               Cadastrar
             </Button>
-            <Button style={{ marginBottom: 10 }} variant="contained" color="primary" href={'/admin/email/sendercontact'} onClick={GetIdSelect}>
+            <Button style={{ marginBottom: 10 }} variant="contained" color="primary" onClick={GetIdSelect}>
                 <AddIcon />
               Enviar E-mail
             </Button>
