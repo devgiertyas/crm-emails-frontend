@@ -84,12 +84,14 @@ export default function SendEmailContact() {
              idUsuario: getIdUsuario() 
         } 
 
-        console.log(data);
-
-        //const response = await api.post('/api/email/send', data)
-        //console.log(response);
-        //console.log(response)
-
+        const response = await api.post('/api/email/send', data)
+        
+        if(response.status===200){
+            alert('E-mail Enviado com sucesso!');
+            window.location.href='/admin/group'
+          }else{
+            alert('Erro ao enviar e-mail!');
+          }
     }
 
     return (

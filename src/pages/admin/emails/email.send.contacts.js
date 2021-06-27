@@ -70,8 +70,6 @@ export default function SendEmailContact() {
 
     async function handleSubmit() {
         
-        console.log(contatos)
-
         const data = {
              remetentes: contatos,
              assunto: assunto,
@@ -80,9 +78,16 @@ export default function SendEmailContact() {
         } 
 
         const response = await api.post('/api/email/send', data)
-        console.log(response);
-        //console.log(response)
 
+        console.log('Response',response);
+        
+        if(response.status===200){
+            alert('E-mail Enviado com sucesso!');
+            window.location.href='/admin/contacts'
+          }else{
+            alert('Erro ao enviar e-mail!');
+          }
+         
     }
 
     return (

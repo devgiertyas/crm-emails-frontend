@@ -128,8 +128,7 @@ export default function UsersEdit() {
                   </Grid>
                 </Grid>
               </Paper>
-            </Grid>
-            
+            </Grid>     
           </Grid>
           <Box pt={4}>
             <Footer />

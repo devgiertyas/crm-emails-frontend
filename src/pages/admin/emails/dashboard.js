@@ -10,7 +10,6 @@ import Footer from '../../../components/footer-admin';
 import api from '../../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-
 import Button from '@material-ui/core/Button';
 import PageviewIcon from '@material-ui/icons/Pageview';
 
@@ -97,7 +96,7 @@ export default function DashboardEmails() {
             renderCell: (params) => {
                 return (
                     <div>
-                        <Button variant="contained" color="primary" href={'admin/email/view/' + params.row.id}><PageviewIcon /> Ver</Button>
+                        <Button variant="contained" color="primary" href={'/admin/email/view/' + params.row.id}><PageviewIcon /> Ver</Button>
                     </div>
                 );
             }
@@ -105,13 +104,12 @@ export default function DashboardEmails() {
     ]
 
     useEffect(() => {
-        async function loadGroups() {
+        async function loadEmails() {
             const response = await api.get("/api/email/list");
             setGrupos(response.data)
             setLoading(false);
-            console.log(grupos)
         }
-        loadGroups();
+        loadEmails();
     }, []);
 
     return (

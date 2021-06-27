@@ -91,10 +91,7 @@ export default function GroupEdit() {
       } else {
         alert('Ocorreu um erro. Por favor, tente novamente!');
       }
-      
-      console.log(idProject);
-      console.log(id);
-
+    
     }
   }
 

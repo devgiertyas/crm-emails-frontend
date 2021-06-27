@@ -5,10 +5,14 @@ import Dashboard from './pages/admin/dashboard';
 import EmailSend from './pages/admin/emails/email.send';
 import EmailSendContact from './pages/admin/emails/email.send.contacts'
 import EmailDashBoard from './pages/admin/emails/dashboard'
+import EmailView from './pages/admin/emails/email.view'
+
 import GroupCreate from './pages/admin/group/group.create';
 import Group from './pages/admin/group';
 import GroupEdit from './pages/admin/group/group.edit'
+
 import Login from './pages/admin/login';
+
 import Contacts from './pages/admin/contacts';
 import ContactsEdit from './pages/admin/contacts/contacts.edit';
 import ContactsCreate from './pages/admin/contacts/contacts.create';
@@ -34,6 +38,7 @@ export default function Routes() {
                 <PrivateRoute  path="/admin/email/sender/:idGroup" exact component={EmailSend} />
                 <PrivateRoute  path="/admin/email/sendercontact/:idContact" exact component={EmailSendContact} />
                 <PrivateRoute path="/admin/email/dashboard" exact component={EmailDashBoard}/>
+                <PrivateRoute path="/admin/email/view/:idEmail" exact component={EmailView}/>
 
                 <Route  path="/admin/group/edit/:idGroup" exact component={GroupEdit} />
                 <PrivateRoute  path="/admin/group/create" exact component={GroupCreate} />
