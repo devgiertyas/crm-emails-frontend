@@ -14,6 +14,7 @@ import api from '../../../services/api';
 import { useParams } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { getIdUsuario } from '../../../services/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +75,8 @@ export default function SendEmailContact() {
         const data = {
              remetentes: contatos,
              assunto: assunto,
-             mensagem: mensagem 
+             mensagem: mensagem,
+             idUsuario : getIdUsuario()
         } 
 
         const response = await api.post('/api/email/send', data)

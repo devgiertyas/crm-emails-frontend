@@ -7,6 +7,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EmailIcon from '@material-ui/icons/Email';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import GroupIcon from '@material-ui/icons/Group';
+import PersonIcon from '@material-ui/icons/Person';
 
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import api from '../services/api';
@@ -32,7 +33,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Grupos" />
     </ListItem>
-    <ListItem button component="a" href="/admin/contacts" >
+    <ListItem button component="a" href="/admin/email/dashboard" >
       <ListItemIcon>
         <EmailIcon />
       </ListItemIcon>
@@ -40,7 +41,7 @@ export const mainListItems = (
     </ListItem>
     <ListItem button component="a" href="/admin/users" >
       <ListItemIcon>
-        <GroupIcon />
+        <PersonIcon />
       </ListItemIcon>
       <ListItemText primary="Usuários" />
     </ListItem>
